@@ -5,8 +5,8 @@ import requests
 import time
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
-API_URL_CLASSIFY = "https://api-inference.huggingface.co/models/valhalla/distilbart-mnli-12-3"
-API_URL_GENERATE = "https://api-inference.huggingface.co/models/pierreguillou/gpt2-small-portuguese"
+API_URL_CLASSIFY = "https://router.huggingface.co/hf-inference/valhalla/distilbart-mnli-12-3"
+API_URL_GENERATE = "https://router.huggingface.co/hf-inference/pierreguillou/gpt2-small-portuguese"
 HEADERS = {"Authorization": f"Bearer {HF_TOKEN}"}
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
