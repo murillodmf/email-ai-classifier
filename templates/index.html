@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificador de Emails</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Classificador de Emails com IA</h1>
+        <p class="subtitle">Analise emails em .txt, .pdf ou cole o texto diretamente.</p>
+
+        <form id="email-form">
+            
+            <textarea id="email-text" placeholder="Cole o conteúdo do seu email aqui..." rows="10"></textarea>
+            
+            <div class="divider">
+                <span>OU</span>
+            </div>
+
+            <label for="file-upload" class="file-label">
+                <span>Selecionar arquivo (.txt ou .pdf)</span>
+                <input type="file" id="file-upload" accept=".txt,.pdf">
+            </label>
+            <span id="file-name" class="file-name-display"></span>
+            
+            <button type="submit" id="submit-button">Analisar Email</button>
+        </form>
+
+        
+        <div class="loader-container" id="loader">
+            <div class="loader"></div>
+            <p>Analisando... Isso pode levar alguns segundos.</p>
+        </div>
+
+        
+        <div id="results">
+            <h2>Resultado da Análise</h2>
+            <div class="result-item">
+                <strong>Classificação:</strong>
+                <span id="classification-result" class="badge"></span>
+            </div>
+            <div class="result-item">
+                <strong>Resposta Sugerida:</strong>
+                <p id="response-result" class="response-box"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
