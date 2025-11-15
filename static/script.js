@@ -3,35 +3,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailForm = document.getElementById('email-form');
     const emailText = document.getElementById('email-text');
     const fileInput = document.getElementById('file-upload');
-    const fileNameDisplay = document.getElementById('file-name');
     const loader = document.getElementById('loader');
     const resultsDiv = document.getElementById('results');
     const classificationResult = document.getElementById('classification-result');
     const responseResult = document.getElementById('response-result');
     const submitButton = document.getElementById('submit-button');
 
+    const clearTextBtn = document.getElementById('clear-text-btn');
+    const removeFileBtn = document.getElementById('remove-file-btn');
+    const fileDisplayContainer = document.getElementById('file-display-container');
+    const fileNameDisplay = document.getElementById('file-name');
+
+
+    clearTextBtn.addEventListener('click', () => {
+        emailText.value = '';
+        emailText.disabled = false;
+        fileInput.disabled = false; 
+    });
+
+    function clearFileInput() {
+        fileInput.value = null;
+        fileNameDisplay.textContent = '';
+        fileDisplayContainer.style.display = 'none';
+        emailText.disabled = false;
+    }
+    
+    removeFileBtn.addEventListener('click', clearFileInput);
+
     fileInput.addEventListener('change', () => {
         if (fileInput.files.length > 0) {
             fileNameDisplay.textContent = fileInput.files[0].name;
+            fileDisplayContainer.style.display = 'flex';
             emailText.disabled = true;
         } else {
-            fileNameDisplay.textContent = '';
-            emailText.disabled = false;
+            clearFileInput();
         }
     });
     
     emailText.addEventListener('input', () => {
         if (emailText.value.trim() !== '') {
-            fileInput.value = null;
-            fileNameDisplay.textContent = '';
-        }
-        if (fileInput.files.length > 0) {
-            emailText.disabled = true;
+            clearFileInput();
         }
     });
 
     emailForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+        event.preventDefault(); 
 
         const formData = new FormData();
         const file = fileInput.files[0];
@@ -80,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.style.display = 'none';
             submitButton.disabled = false;
             submitButton.textContent = 'Analisar Email';
+            
+            clearFileInput();
+            emailText.disabled = false;
         }
     });
 });
