@@ -1,69 +1,87 @@
-# Classificador de Emails com IA 🚀
+Aqui está o **README totalmente formatado em Markdown**, pronto para copiar e colar no VSCode:
 
-Este projeto é uma aplicação web desenvolvida para o Desafio [Nome da Empresa], que classifica emails como "Produtivos" ou "Improdutivos" e sugere respostas automáticas usando IA.
+---
 
-A aplicação é construída com uma arquitetura leve (Flask + API de Inferência), permitindo que seja hospedada de forma rápida e gratuita em plataformas como Render ou Hugging Face Spaces.
+````md
+# 📩 InboxAI – Classificador Inteligente de Emails
 
-**[Link para a Aplicação na Nuvem]**
-(ex: https://email-ai-classifier.onrender.com)
+Este projeto é uma aplicação web que **classifica emails como "Produtivos" ou "Improdutivos"** e **gera respostas automáticas usando Inteligência Artificial**.
 
-**[Link para o Vídeo de Demonstração]**
-(ex: https://www.youtube.com/watch?v=seu-video)
+A arquitetura é extremamente leve (**Flask + API de Inferência**), permitindo **deploy rápido e gratuito** em plataformas como **Vercel** ou **Render**.
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Backend:** Python, Flask
-* **Frontend:** HTML, CSS, JavaScript (com `fetch` assíncrono)
-* **Inteligência Artificial:**
-    * **Arquitetura:** API de Inferência (sem carregar modelos localmente).
-    * **Plataforma de IA:** [Hugging Face Inference API](https://huggingface.co/inference-api)
-    * **Classificação:** `valhalla/distilbart-mnli-12-3`
-    * **Geração de Resposta:** `pierreguillou/gpt2-small-portuguese`
-* **Processamento de Arquivos:** `PyMuPDF` (para .pdf)
-* **Hospedagem:** Render (ou Hugging Face Spaces)
-* **Servidor de Produção:** `gunicorn`
+### Backend
+- Python
+- Flask
+- Gunicorn
+
+### Frontend
+- HTML
+- CSS
+- JavaScript (Fetch API assíncrono)
+
+### Inteligência Artificial
+- **Classificação:** `facebook/bart-large-mnli`
+- **Geração de Resposta:** `moonshotai/Kimi-K2-Thinking` (endpoint compatível com OpenAI)
+- **Plataforma:** Hugging Face Inference API
+- **Bibliotecas Python:** `openai`, `requests`, `PyMuPDF`
+
+### Hospedagem
+- Vercel (recomendado)
+- Render
 
 ---
 
 ## 🧠 Arquitetura e Decisões Técnicas
 
-Para atender aos requisitos de uso de IA e hospedagem gratuita na nuvem, optei por **não carregar os modelos de IA na memória do servidor**.
+Plataformas gratuitas como Vercel e Render possuem **limite reduzido de RAM (~512MB)**, impossibilitando carregar modelos modernos localmente.
 
-Plataformas de hospedagem gratuita (como Render Free Tier) têm limites de RAM muito baixos (ex: 512MB), o que é insuficiente para carregar modelos de linguagem modernos.
+➡️ **Solução adotada:**  
+Todo o processamento de IA é feito **externamente**, via Hugging Face.
 
-A solução foi implementar uma **arquitetura baseada em API**:
+### Fluxo do sistema:
 
-1.  O usuário envia o texto/arquivo para o backend Flask.
-2.  O backend Flask (Python) **não processa** a IA. Ele simplesmente faz duas chamadas `POST` para a API de Inferência da Hugging Face.
-3.  A API da Hugging Face executa os modelos de classificação e geração em seus próprios servidores e retorna o resultado em JSON.
-4.  Nosso app Flask recebe esse JSON e o envia para o frontend.
+1. O usuário envia o email (texto ou PDF) pelo frontend.
+2. O backend Flask recebe o conteúdo.
+3. O Flask faz **requisições POST** para a Inference API da Hugging Face.
+4. A Hugging Face executa os modelos e retorna o JSON com:
+   - Classificação (Produtivo ou Improdutivo)
+   - Resposta automática sugerida
+5. O Flask envia o resultado ao navegador.
 
-Essa abordagem torna nosso app **extremamente leve** (< 100MB de RAM), rápido e ideal para o deploy gratuito.
+Essa abordagem deixa o app:
 
-
+✔️ Extremamente leve  
+✔️ Escalável  
+✔️ Ideal para deploy gratuito
 
 ---
 
 ## ⚙️ Como Executar Localmente
 
-Siga os passos abaixo para rodar o projeto na sua máquina.
+### 1️⃣ Pré-requisitos
 
-### 1. Pré-requisitos
+- Python **3.10+**
+- Conta gratuita no **Hugging Face**
+- Um **API Token** com permissão *"Make calls to Inference Providers"*
 
-* Python 3.10+
-* Uma conta gratuita no [Hugging Face](https://huggingface.co/)
-* Um Token de Acesso (API Token) do Hugging Face.
+---
 
-### 2. Clonar o Repositório
+### 2️⃣ Clonar o Repositório
 
-```bash
-git clone [https://github.com/murillodmf/email-ai-classifier.git](https://github.com/murillodmf/email-ai-classifier.git)
+```sh
+git clone https://github.com/murillodmf/email-ai-classifier.git
 cd email-ai-classifier
-```
+````
 
-### 3. Configurar Ambiente Virtual e Dependências
+---
 
-```bash
+### 3️⃣ Criar Ambiente Virtual e Instalar Dependências
+
+```sh
 # Criar ambiente virtual
 python -m venv venv
 
@@ -77,42 +95,52 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-### 4. Configurar o Token de API
+---
 
-O aplicativo precisa do seu token da Hugging Face para funcionar.
+### 4️⃣ Configurar o Token de API
 
-```bash
+```sh
 # Windows PowerShell
-$env:HF_TOKEN = "hf_SEU_TOKEN_SECRETO_VAI_AQUI"
+$env:HF_TOKEN = "hf_SEU_TOKEN_AQUI"
 
 # macOS/Linux
-# export HF_TOKEN="hf_SEU_TOKEN_SECRETO_VAI_AQUI"
+export HF_TOKEN="hf_SEU_TOKEN_AQUI"
 ```
 
-### 5. Executar o Servidor
-
-```bash
-python app.py
-```
-
-Acesse [http://127.0.0.1:5000/](http://127.0.0.1:5000/) no seu navegador.
+❗ **Sem esse token a aplicação NÃO funciona**
 
 ---
 
-## 🚀 Como Fazer o Deploy (Render.com)
+### 5️⃣ Executar o Servidor
 
-Esta aplicação está pronta para o deploy gratuito no Render.
+```sh
+python app.py
+```
 
-1.  **Crie uma conta** no [Render](https://render.com/) (use o login do GitHub).
-2.  No painel, clique em **New+** > **Web Service**.
-3.  Conecte seu repositório do GitHub.
-4.  Configure o serviço:
-    * **Runtime:** `Python 3`
-    * **Build Command:** `pip install -r requirements.txt`
-    * **Start Command:** `gunicorn app:app`
-    * **Instance Type:** `Free`
-5.  Clique em **"Advanced Settings"**.
-6.  Vá em **"Add Environment Variable"**:
-    * **Key:** `HF_TOKEN`
-    * **Value:** `hf_SEU_TOKEN_SECRETO_VAI_AQUI`
-7.  Clique em **"Create Web Service"** e aguarde o build.
+Depois acesse:
+
+➡️ [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+
+---
+
+## 🚀 Deploy Grátis (Vercel / Render)
+
+O projeto já está preparado com:
+
+✔️ `requirements.txt`
+✔️ `vercel.json` *(se necessário)*
+✔️ Uso de variáveis de ambiente
+
+---
+
+## 📜 Licença
+
+Este projeto é open-source. Use, modifique e melhore como quiser.
+
+---
+
+## ✨ Autor
+
+**Murillo de Moura Ferraz**
+📧 Desenvolvimento de IA aplicada a produtividade
+🔗 GitHub: [https://github.com/murillodmf](https://github.com/murillodmf)
