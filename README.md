@@ -1,8 +1,3 @@
-Aqui está o **README totalmente formatado em Markdown**, pronto para copiar e colar no VSCode:
-
----
-
-````md
 # 📩 InboxAI – Classificador Inteligente de Emails
 
 Este projeto é uma aplicação web que **classifica emails como "Produtivos" ou "Improdutivos"** e **gera respostas automáticas usando Inteligência Artificial**.
